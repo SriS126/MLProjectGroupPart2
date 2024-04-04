@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obstacle Maze Game</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
             display: flex;
@@ -20,7 +20,6 @@
             display: flex;
             justify-content: center;
             align-items: start;
-            flex-wrap: wrap;
         }
         nav {
             width: 100%;
@@ -49,6 +48,7 @@
         }
         #messageBox {
             width: 300px;
+            height: 600px; /* Same height as the maze */
             background-color: white;
             padding: 10px;
             border: 2px solid #ccc;
@@ -67,16 +67,16 @@
             box-sizing: border-box;
             border: 1px solid #fff;
         }
-        .start {
+        #start {
             background-color: #00FF00;
         }
-        .end {
+        #end {
             background-color: #FF0000;
         }
-        .player {
+        #player {
             background-color: #0000FF;
         }
-        .message {
+        #message {
             position: absolute;
             top: 20px;
             width: 100%;
@@ -84,13 +84,8 @@
             color: #000;
             font-size: 24px;
         }
-        .btn-custom {
-            margin: 10px;
-            font-size: 16px;
-            padding: 5px 10px;
-        }
     </style>
-    <!-- Removed include statement as it's not applicable in this standalone example -->
+    {% include "layouts/navbar.html" %}
 </head>
 <body>
     <div class="content">
@@ -100,31 +95,22 @@
         </div>
     </div>
     <div id="message"></div>
-    <div>
-        <button class="btn btn-primary btn-custom" onclick="restartGame()">Restart</button>
-        <button class="btn btn-info btn-custom" onclick="showHelp()">Help</button>
-    </div>
     <script>
         const mazeContainer = document.getElementById('maze');
         const messageElement = document.getElementById('message');
         const mazeSize = 20;
         const obstacleDensity = 0.3; // Adjust density of obstacles (0 to 1)
         let playerPosition = { row: 0, col: 0 };
-        let mazeLayout;
-
-        function generateMazeLayout() {
-            return Array.from({ length: mazeSize }, () =>
-                Array.from({ length: mazeSize }, () =>
-                    Math.random() < obstacleDensity ? 1 : 0
-                )
-            );
-        }
-
+        // Generate random maze layout with obstacles
+        const mazeLayout = Array.from({ length: mazeSize }, () =>
+            Array.from({ length: mazeSize }, () =>
+                Math.random() < obstacleDensity ? 1 : 0
+            )
+        );
+        // Place start and end points
+        mazeLayout[0][0] = 2; // Start
+        mazeLayout[mazeSize - 1][mazeSize - 1] = 3; // End
         function createMaze() {
-            mazeContainer.innerHTML = ''; // Clear previous maze
-            mazeLayout = generateMazeLayout();
-            mazeLayout[0][0] = 2; // Start
-            mazeLayout[mazeSize - 1][mazeSize - 1] = 3; // End
             for (let row = 0; row < mazeSize; row++) {
                 for (let col = 0; col < mazeSize; col++) {
                     const cell = document.createElement('div');
@@ -136,11 +122,11 @@
                             cell.style.backgroundColor = '#000';
                             break;
                         case 2:
-                            cell.classList.add('start');
+                            cell.style.backgroundColor = '#00FF00'; // Start
                             playerPosition = { row, col };
                             break;
                         case 3:
-                            cell.classList.add('end');
+                            cell.style.backgroundColor = '#FF0000'; // End
                             break;
                         default:
                             cell.style.backgroundColor = '#fff'; // Path
@@ -149,22 +135,18 @@
                     mazeContainer.appendChild(cell);
                 }
             }
-            updatePlayerPosition();
         }
-
         function updatePlayerPosition() {
-            mazeContainer.querySelector('.player')?.classList.remove('player');
-            const playerCell = mazeContainer.querySelector(`.cell[data-row="${playerPosition.row}"][data-col="${playerPosition.col}"]`);
-            playerCell.classList.add('player');
+            const playerCell = document.querySelector(`.cell[data-row="${playerPosition.row}"][data-col="${playerPosition.col}"]`);
+            playerCell.style.backgroundColor = '#0000FF'; // Player color
         }
-
         function checkWin() {
             if (playerPosition.row === mazeSize - 1 && playerPosition.col === mazeSize - 1) {
                 messageElement.textContent = 'Congratulations! You won!';
-                document.querySelector('.end').classList.add('start'); // Change end cell color on win
+                // Change end cell color on win
+                document.querySelector(`.cell[data-row="${mazeSize - 1}"][data-col="${mazeSize - 1}"]`).style.backgroundColor = '#00FF00';
             }
         }
-
         function movePlayer(event) {
             const { key } = event;
             const newRow = playerPosition.row + (key === 'ArrowDown' ? 1 : key === 'ArrowUp' ? -1 : 0);
@@ -172,23 +154,17 @@
             if (newRow >= 0 && newRow < mazeSize && newCol >= 0 && newCol < mazeSize) {
                 const targetCell = mazeLayout[newRow][newCol];
                 if (targetCell !== 1) {
+                    // Restore start cell or path color
+                    document.querySelector(`.cell[data-row="${playerPosition.row}"][data-col="${playerPosition.col}"]`).style.backgroundColor = targetCell === 2 ? '#00FF00' : '#fff';
                     playerPosition = { row: newRow, col: newCol };
                     updatePlayerPosition();
                     checkWin();
                 }
             }
         }
-
-        function restartGame() {
-            createMaze();
-        }
-
-        function showHelp() {
-            alert('Use arrow keys to move the player through the maze from start (green) to finish (red). Avoid black blocks.');
-        }
-
         document.addEventListener('keydown', movePlayer);
         createMaze();
+        updatePlayerPosition();
     </script>
 </body>
 </html>
