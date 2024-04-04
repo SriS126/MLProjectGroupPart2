@@ -1,71 +1,151 @@
-<!-- Custom file for standardizing Project Data
-This HTML is setup as as a Jinja2 layout, coders use layouts for:
- ... standardization of style
- ... setting expectations for data
- ... code reuse
--->
-<!DOCTYPE HTML>
 <html lang="en">
-
 {% set basename = "Nighthawk Coding" %}
 {% set github = "https://github.com/nighthawkcoders" %}
 {% set twitter = "https://twitter.com/NighthawkCoding" %}
 {% set youtube = "https://www.youtube.com/channel/UClIKOsDS5dsfzFA3zveDT3Q?view_as=subscriber" %}
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- JQuery -->
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-     <!-- Bootstrap JavaScript -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-      
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <style>
     .navbar {
         position: static;
         z-index: 9999;
-        }
-    {% block style %}
-    {% endblock %}
+    }
+    .right-aligned-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-right: 175px;
+    }
+    .text-container {
+        margin-left:150px;
+    }
+    .text-box {
+        max-width: 400px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        margin-right: 20px;
+        color: black;
+    }
+    .text-box h2 {
+        margin-top: 25;
+        color: #333;
+    }
+    body {
+        color: #fff;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-image: url('/MLProjectGroupPart2/images/cancerpic.jpeg');
+        background-size: cover;
+    }
+    form {
+        max-width: 400px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: black;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #000;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="checkbox"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        background-color: #F2F2F2;
+        border: none;
+        border-radius: 4px;
+        color: #333;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #FF5722;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #E64A19;
+    }
+    #result {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #F2F2F2;
+        border-radius: 12px;
+    }
+    #result h2 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+    #result p {
+        margin-bottom: 5px;
+        color: #333;
+    }
     </style>
-
     <title>{{ basename }} | {{ project }} </title>
-
 </head>
-
 <body>
     {% include "layouts/navbar.html" %}
-
     {% block body %}
+    <div class="right-aligned-container">
+        <div class="text-container">
+            <div class="text-box">
+                <h2>Here to Test for Cancer?</h2>
+                Please input your data into the cancer diagnosis program on the right. It will measure the specific characteristics of the cell to predict if you are suffering from or showing signs of cancer. If you do not have the cell data, ask your doctor to measure so you can use this website. Hope all goes well!
+            </div>
+            <div class="text-box" style="margin-top: 30px;">
+                <h2>If Malignant, Relief Stategies</h2>
+                If malignant of cancer, we are very sorry to hear. Some ways to make it go away are chemotherapy, surgeries, and medicine. Check up with your doctor often and make sure to stay physically active. Studies show that some relief strategies are playing game or drawing! We included a game on the website and a drawing program, where you can draw or play games to relieve from this stress. We hope this helps. You can find these relief activities near the top of the website, labeled "Drawing/Games". Hope all goes well, stay safe, stay healthy, all the best.
+            </div>
+        </div>
+        <div>
+            <h1>Predict Cancer Diagnosis</h1>
+            <form id="cancerForm">
+                <label for="radius_mean">Radius Mean:</label>
+                <input type="number" id="radius_mean" name="radius_mean" required><br><br>
+                <label for="texture_mean">Texture Mean:</label>
+                <input type="number" id="texture_mean" name="texture_mean" required><br><br>
+                <label for="perimeter_mean">Perimeter Mean:</label>
+                <input type="number" id="perimeter_mean" name="perimeter_mean" required><br><br>
+                <label for="area_mean">Area Mean:</label>
+                <input type="number" id="area_mean" name="area_mean" required><br><br>
+                <label for="smoothness_mean">Smoothness Mean:</label>
+                <input type="number" id="smoothness_mean" name="smoothness_mean" required><br><br>
+                <label for="concavity_mean">Concavity Mean:</label>
+                <input type="number" id="concavity_mean" name="concavity_mean" required><br><br>
+                <label for="symmetry_mean">Symmetry Mean:</label>
+                <input type="number" id="symmetry_mean" name="symmetry_mean" required><br><br>
+                <button type="button" onclick="predictDiagnosis()">Predict Diagnosis</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
     {% endblock %}
-
 </body>
-
 {% block background %}
-    <script src="{{ url_for('static', filename='js/three.r119.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vanta.birds.min.js') }}"></script>
-    <script>
-        VANTA.BIRDS({
-            el: "body",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00
-        })
-    </script>
 {% endblock %}
-
 </html>
