@@ -135,5 +135,30 @@
     </form>
 
     <div id="result"></div>
+    <script>
+        function predictSurvival() {
+            var form = document.getElementById('titanicForm');
+            var formData = new FormData(form);
+            fetch('http://127.0.0.1:8086/api/titanic/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = '<h2>Prediction Result</h2>';
+                for (var key in data) {
+                    resultDiv.innerHTML += '<p>' + key + ': ' + data[key] + '</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>
