@@ -1,5 +1,5 @@
 <html lang="en">
-{% set basename = "Nighthawk Coding" %}
+{% set basename = "Cancer Diagnosis/Relief    |" %}
 {% set github = "https://github.com/nighthawkcoders" %}
 {% set twitter = "https://twitter.com/NighthawkCoding" %}
 {% set youtube = "https://www.youtube.com/channel/UClIKOsDS5dsfzFA3zveDT3Q?view_as=subscriber" %}
@@ -48,7 +48,7 @@
         color: #fff;
         font-family: Arial, sans-serif;
         padding: 20px;
-        background-image: url('/MLProjectGroupPart2/images/cancerpic.jpeg');
+        background-image: url('/assets/cncr.jpg');
         background-size: cover;
     }
     form {
@@ -142,6 +142,48 @@
                 <button type="button" onclick="predictDiagnosis()">Predict Diagnosis</button>
             </form>
             <div id="result"></div>
+            <script>
+                function predictDiagnosis() {
+                  // var form = document.getElementById('cancerForm');
+                  // var formData = new FormData(form);
+                  var perimeter_mean = document.getElementById('perimeter_mean').value;
+                  var radius_mean = document.getElementById('radius_mean').value;
+                  var texture_mean = document.getElementById('texture_mean').value;
+                  var area_mean = document.getElementById('area_mean').value;
+                  var smoothness_mean = document.getElementById('smoothness_mean').value;
+                  var concavity_mean = document.getElementById('concavity_mean').value;
+                  var symmetry_mean = document.getElementById('symmetry_mean').value;
+              
+                  fetch('http://127.0.0.1:8086/api/cancer/predict', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          'perimeter_mean' : perimeter_mean,
+                          'radius_mean' : radius_mean,
+                          'texture_mean' : texture_mean,
+                          'area_mean' : area_mean,
+                          'smoothness_mean' : smoothness_mean,
+                          'concavity_mean' : concavity_mean,
+                          'symmetry_mean' : symmetry_mean 
+              
+                      })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      var resultDiv = document.getElementById('result');
+                      resultDiv.innerHTML = '<h2>Prediction Result</h2>';
+                      for (var key in data) {
+                          resultDiv.innerHTML += '<p>' + key + ': ' + data[key] + '</p>';
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                  });
+              }
+              </script>
         </div>
     </div>
     {% endblock %}
